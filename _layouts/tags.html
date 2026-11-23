@@ -1,0 +1,148 @@
+---
+layout: page
+# A searchable index of every tag and its posts.
+---
+
+{% include lang.html %}
+
+{% assign tag_names = '' | split: '' %}
+{% for tag in site.tags %}
+  {% assign tag_names = tag_names | push: tag[0] %}
+{% endfor %}
+{% assign sorted_tags = tag_names | sort_natural %}
+
+<div id="tag-index" class="tag-index">
+  <header class="tag-index-intro">
+    <div>
+      <p class="tag-index-eyebrow">TOPIC INDEX</p>
+      <h2>按标签浏览文章</h2>
+      <p class="tag-index-description">
+        选择一个标签即可查看相关文章。也可以输入标签名或文章标题，快速缩小范围。
+      </p>
+    </div>
+    <div class="tag-index-stats" aria-label="标签统计">
+      <span><strong>{{ site.tags.size }}</strong> 个标签</span>
+      <span><strong>{{ site.posts.size }}</strong> 篇文章</span>
+    </div>
+  </header>
+
+  {% if site.tags.size > 0 %}
+    <div class="tag-index-toolbar">
+      <label class="tag-index-search" for="tag-index-filter">
+        <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+        <input
+          id="tag-index-filter"
+          type="search"
+          aria-label="筛选标签或文章"
+          placeholder="筛选标签或文章标题…"
+          autocomplete="off"
+        >
+      </label>
+      <p id="tag-index-status" class="tag-index-status" aria-live="polite">
+        显示 {{ site.tags.size }} 个标签
+      </p>
+    </div>
+
+    <nav class="tag-index-cloud" aria-label="全部标签">
+      {% for tag_name in sorted_tags %}
+        {% assign tag_posts = site.tags[tag_name] %}
+        <a
+          class="tag-index-pill"
+          href="#tag-index-{{ forloop.index }}"
+          data-tag-link
+          aria-label="查看标签 {{ tag_name }} 的文章"
+        >
+          <span><i class="fas fa-tag fa-fw" aria-hidden="true"></i>{{ tag_name }}</span>
+          <span class="tag-index-count">{{ tag_posts | size }}</span>
+        </a>
+      {% endfor %}
+    </nav>
+
+    <p id="tag-index-empty" class="tag-index-empty" hidden>
+      没有找到匹配的标签或文章，请尝试其他关键词。
+    </p>
+
+    <div class="tag-index-groups">
+      {% for tag_name in sorted_tags %}
+        {% assign tag_posts = site.tags[tag_name] | sort: 'date' | reverse %}
+        {% capture tag_archive_url %}/tags/{{ tag_name | slugify | url_encode }}/{% endcapture %}
+        <section
+          id="tag-index-{{ forloop.index }}"
+          class="tag-index-group"
+          data-tag-group
+          data-search="{{ tag_name | escape }} {% for post in tag_posts %}{{ post.title | escape }} {% endfor %}"
+        >
+          <header class="tag-index-group-header">
+            <div>
+              <p class="tag-index-group-label">TAG {{ forloop.index }}</p>
+              <h2>
+                <i class="fas fa-tag fa-fw" aria-hidden="true"></i>
+                {{ tag_name }}
+                <span>{{ tag_posts | size }}</span>
+              </h2>
+            </div>
+            <a class="tag-index-archive" href="{{ tag_archive_url | relative_url }}">
+              独立归档
+              <i class="fas fa-arrow-right fa-xs" aria-hidden="true"></i>
+            </a>
+          </header>
+
+          <ul class="tag-index-posts">
+            {% for post in tag_posts %}
+              <li>
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                <time datetime="{{ post.date | date_to_xmlschema }}">
+                  {{ post.date | date: '%Y-%m-%d' }}
+                </time>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </div>
+
+    <script>
+      (() => {
+        const root = document.getElementById('tag-index');
+        if (!root) return;
+
+        const input = root.querySelector('#tag-index-filter');
+        const status = root.querySelector('#tag-index-status');
+        const empty = root.querySelector('#tag-index-empty');
+        const groups = [...root.querySelectorAll('[data-tag-group]')];
+        const links = [...root.querySelectorAll('[data-tag-link]')];
+
+        const normalize = (value) =>
+          value.toLocaleLowerCase().normalize('NFKC').trim();
+
+        const filter = () => {
+          const query = normalize(input.value);
+          let matches = 0;
+
+          groups.forEach((group) => {
+            const visible =
+              query.length === 0 ||
+              normalize(group.dataset.search || group.textContent).includes(query);
+
+            group.hidden = !visible;
+            if (visible) matches += 1;
+          });
+
+          links.forEach((link) => {
+            const target = document.querySelector(link.getAttribute('href'));
+            link.hidden = !target || target.hidden;
+          });
+
+          empty.hidden = matches !== 0;
+          status.textContent = query
+            ? `找到 ${matches} 个相关标签`
+            : `显示 ${groups.length} 个标签`;
+        };
+
+        input.addEventListener('input', filter);
+      })();
+    </script>
+  {% else %}
+    <p class="tag-index-empty">还没有文章标签。发布带 <code>tags</code> 的文章后，这里会自动生成索引。</p>
+  {% endif %}
+</div>

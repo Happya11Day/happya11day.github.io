@@ -13,9 +13,13 @@ comments: false
 > 文中的“位序”从 1 开始，而 C++ 数组下标从 0 开始。例如，第 1 个元素保存在 `data[0]`。
 
 <div class="article-tags">
-  <span class="article-tags-label">Tags:</span>
+  <span class="article-tags-label">标签：</span>
 {% for tag in page.tags %}
-  <a class="article-tag" href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/">{{ tag }}</a>
+  <a
+    class="article-tag"
+    href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/"
+    title="查看标签 {{ tag }} 的相关文章"
+  >{{ tag }}</a>
 {% endfor %}
 </div>
 

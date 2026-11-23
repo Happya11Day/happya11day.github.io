@@ -149,6 +149,14 @@ pwa:
 
 paginate: 10
 
+# Load the plugins used by the navigation pages. Keeping them explicit makes
+# tag/category archives and home pagination part of every production build.
+plugins:
+  - jekyll-archives
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
 # The base URL of your site
 baseurl: ""
 

@@ -22,9 +22,13 @@ typedef struct
 ```
 
 <div class="article-tags">
-  <span class="article-tags-label">Tags:</span>
+  <span class="article-tags-label">标签：</span>
 {% for tag in page.tags %}
-  <a class="article-tag" href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/">{{ tag }}</a>
+  <a
+    class="article-tag"
+    href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/"
+    title="查看标签 {{ tag }} 的相关文章"
+  >{{ tag }}</a>
 {% endfor %}
 </div>
 

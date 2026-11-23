@@ -1,0 +1,36 @@
+---
+layout: page
+# The list of posts assigned to one tag.
+---
+
+{% include lang.html %}
+
+{% assign posts = page.posts | sort: 'date' | reverse %}
+
+<div id="page-tag" class="tag-archive">
+  <header class="tag-archive-header">
+    <div>
+      <p class="tag-index-eyebrow">TAG ARCHIVE</p>
+      <h1>
+        <i class="fas fa-tag fa-fw" aria-hidden="true"></i>
+        {{ page.title }}
+      </h1>
+      <p class="tag-archive-description">共 {{ posts | size }} 篇使用此标签的文章。</p>
+    </div>
+    <a class="tag-archive-back" href="{{ '/tags/' | relative_url }}">
+      <i class="fas fa-arrow-left fa-xs" aria-hidden="true"></i>
+      全部标签
+    </a>
+  </header>
+
+  <ul class="tag-archive-posts">
+    {% for post in posts %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <time datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: '%Y-%m-%d' }}
+        </time>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
