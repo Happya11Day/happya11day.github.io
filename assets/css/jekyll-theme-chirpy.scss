@@ -1,0 +1,278 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/*
+ * Visual Studio-inspired syntax colors.
+ * Comments remain upright in both light and dark modes.
+ */
+[data-bs-theme='light'] {
+  .highlight,
+  .highlight .w {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+
+  .highlight {
+    box-shadow: #d4d4d4 0 0 0 1px;
+
+    .k,
+    .kd,
+    .kn,
+    .kp,
+    .kr,
+    .kt,
+    .kv {
+      color: #0000ff !important;
+    }
+
+    .nf,
+    .fm,
+    .nb,
+    .bp {
+      color: #795e26 !important;
+    }
+
+    .nc,
+    .nn,
+    .no,
+    .ne,
+    .nl,
+    .py,
+    .na {
+      color: #267f99 !important;
+    }
+
+    .nv,
+    .vc,
+    .vg,
+    .vi,
+    .vm {
+      color: #001080 !important;
+    }
+
+    .o,
+    .ow {
+      color: #af00db !important;
+    }
+
+    .s,
+    .sa,
+    .sc,
+    .dl,
+    .sd,
+    .s2,
+    .se,
+    .sh,
+    .sx,
+    .s1,
+    .ss {
+      color: #a31515 !important;
+    }
+
+    .m,
+    .mb,
+    .mf,
+    .mh,
+    .mi,
+    .il,
+    .mo,
+    .mx {
+      color: #098658 !important;
+    }
+
+    .c,
+    .ch,
+    .cd,
+    .cm,
+    .c1,
+    .cs {
+      color: #008000 !important;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    .cp,
+    .cpf {
+      color: #808080 !important;
+      font-style: normal;
+    }
+
+    .err {
+      color: #a31515 !important;
+      background-color: transparent !important;
+    }
+  }
+}
+
+[data-bs-theme='dark'] {
+  .highlight,
+  .highlight .w {
+    color: #d4d4d4 !important;
+    background-color: #1e1e1e !important;
+  }
+
+  .highlight {
+    box-shadow: #3c3c3c 0 0 0 1px;
+
+    .k,
+    .kd,
+    .kn,
+    .kp,
+    .kr,
+    .kt,
+    .kv {
+      color: #569cd6 !important;
+    }
+
+    .nf,
+    .fm,
+    .nb,
+    .bp {
+      color: #dcdcaa !important;
+    }
+
+    .nc,
+    .nn,
+    .no,
+    .ne,
+    .nl,
+    .py,
+    .na {
+      color: #4ec9b0 !important;
+    }
+
+    .nv,
+    .vc,
+    .vg,
+    .vi,
+    .vm {
+      color: #9cdcfe !important;
+    }
+
+    .o,
+    .ow {
+      color: #d4d4d4 !important;
+    }
+
+    .s,
+    .sa,
+    .sc,
+    .dl,
+    .sd,
+    .s2,
+    .se,
+    .sh,
+    .sx,
+    .s1,
+    .ss {
+      color: #ce9178 !important;
+    }
+
+    .m,
+    .mb,
+    .mf,
+    .mh,
+    .mi,
+    .il,
+    .mo,
+    .mx {
+      color: #b5cea8 !important;
+    }
+
+    .c,
+    .ch,
+    .cd,
+    .cm,
+    .c1,
+    .cs {
+      color: #6a9955 !important;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    .cp,
+    .cpf {
+      color: #808080 !important;
+      font-style: normal;
+    }
+
+    .err {
+      color: #f44747 !important;
+      background-color: transparent !important;
+    }
+  }
+}
+
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  margin: 1rem 0 1.4rem;
+}
+
+.article-tags-label {
+  margin-right: 0.15rem;
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+}
+
+.article-tag {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 0.375rem;
+  background: var(--card-bg);
+  color: var(--text-muted-color) !important;
+  font-size: 0.8rem;
+  text-decoration: none !important;
+}
+
+.article-tag:hover {
+  background: var(--card-hover-bg);
+}
+
+/* Keep Chirpy's structure while giving posts a dedicated reading surface. */
+article[data-toc] {
+  padding: 2rem 2.25rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 0.65rem;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+article[data-toc] > header h1 {
+  margin-bottom: 0.6rem;
+  font-size: clamp(1.8rem, 3.2vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+article[data-toc] > header .post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+article[data-toc] .content {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+@media (max-width: 767.98px) {
+  article[data-toc] {
+    padding: 1.35rem 1.2rem;
+  }
+}
